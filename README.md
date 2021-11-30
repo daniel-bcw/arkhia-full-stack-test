@@ -127,7 +127,7 @@ NOTE: Please make the server listen on port `:4000`.
 ]
 ```
 
-## Docker
+## Docker (optional)
 
 The test contains a basic `docker-compose.yml` file. It uses the latest official NodeJS
 Docker image and creates two containers - one for backend and one for frontend.
