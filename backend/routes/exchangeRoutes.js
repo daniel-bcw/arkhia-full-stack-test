@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { exchange } = require("../controllers/exchangeController");
+const { exchange } = require("../controllers/exchangeControllers");
 
 router.get("/", (req, res) => {
   res.send("Backend server is running");
