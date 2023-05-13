@@ -1,5 +1,5 @@
 import React from "react";
-import "./coinlist.css";
+import "./coinList.css";
 
 interface CoinListProps {
   coins: any[];
