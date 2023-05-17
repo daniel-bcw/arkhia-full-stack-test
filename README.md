@@ -133,6 +133,7 @@ It isn't a requirement to use Docker, but may be convenient.
 ## Technologies
 
 Frontend: `React`, `Redux Toolkit`, `react-router`, `javascript`
+
 Backend: `Node.js`, `Express.js`, `Typescript`
 
 
