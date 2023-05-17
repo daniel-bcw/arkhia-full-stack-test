@@ -44,7 +44,7 @@ const TableWrapper: React.FC<TableWrapperProps> = ({ headers, data }) => {
     const [rowsPerPage, setRowsPerPage] = useState(itemsPerPageOptions[0]);
     const [visibleRows, setVisibleRows] = useState<any[]>([]);
 
-    const handleChangePage = (event: unknown, newPage: number) => {
+    const handleChangePage = (_event: unknown, newPage: number) => {
         setPage(newPage);
     };
 
@@ -52,6 +52,10 @@ const TableWrapper: React.FC<TableWrapperProps> = ({ headers, data }) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
+    useEffect(() => {
+        setPage(0);
+    }, [data]);
 
     useEffect(() => {
         setVisibleRows(data.slice(

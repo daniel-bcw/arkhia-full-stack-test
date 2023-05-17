@@ -112,7 +112,7 @@ export const UrlCellRenderer: React.FC<UrlCellRendererProps> = ({ value }) => {
         <TableCell>
             <Box display='flex' flexDirection='column'>
                 {value.map((url: string, index: number) => (
-                    <Typography key={url + index}>
+                    <Typography key={url || "" + index}>
                         <a href={url} target="#">{url}</a>
                     </Typography>)
                 )}

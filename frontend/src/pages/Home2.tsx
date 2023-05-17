@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
+import { Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 import * as CoinApi from 'api/coin-api';
 import { FlexBox, IconCellRenderer, UrlCellRenderer } from 'components';
@@ -21,8 +21,8 @@ function Home() {
     const [coins, setCoins] = useState<CoinApi.ICoinModel[]>([]);
     const [currency, setCurrency] = useState('USD');
 
-    const getCoinsQuery = () => {
-        CoinApi.getCoins(currency).then((data: CoinApi.ICoinModel[]) => {
+    const getCoinsQuery = (sortBy?: string) => {
+        CoinApi.getCoinsExchange(currency, sortBy).then((data: CoinApi.ICoinModel[]) => {
             const transform = (_data: CoinApi.ICoinModel[]) => _data.map((coin: CoinApi.ICoinModel) => {
                 return {
                     ...coin,
@@ -41,29 +41,21 @@ function Home() {
             setCoins(transform(data));
         });
     }
-    
     useEffect(() => {
         getCoinsQuery();
         // eslint-disable-next-line
     }, [currency]);
 
-    useEffect(() => {
-        console.log("Coins Updated");
-        // eslint-disable-next-line
-    }, [coins]);
-
-    const handleCurrencyChange = (e: SelectChangeEvent) => {
+    const handleCurrencyChange = (e: {target: any}) => {
         setCurrency(e.target.value);
     }
 
     const handleSortbyName = () => {
-        const sortedCoins = coins.sort((a, b) => a.id.localeCompare(b.id));
-        setCoins([...sortedCoins]);
+        getCoinsQuery('name');
     }
 
     const handleSortbyRank = () => {
-        const sortedCoins = coins.sort((a, b) => (a.rank - b.rank));
-        setCoins([...sortedCoins]);
+        getCoinsQuery('rank');
     }
 
     return (
