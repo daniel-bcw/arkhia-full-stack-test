@@ -22,6 +22,7 @@ export interface ICoinModel {
 
     coins: Object;
     urls: string[];
+    exchange: string;
 };
 
 export const getCoins = async (currency: string): Promise<ICoinModel[]> => {
