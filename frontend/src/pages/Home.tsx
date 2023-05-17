@@ -39,10 +39,6 @@ function Home() {
     const [rowsPerPage, setRowsPerPage] = useState(itemsPerPageOptions[0]);
     const [visibleRows, setVisibleRows] = useState<any[]>([]);
 
-    useEffect(() => {
-        setPage(0);
-    }, [coins]);
-
     const getCoinsQuery = () => {
         setLoading(true);
         CoinApi.getCoins(currency).then((data: CoinApi.ICoinModel[]) => {
@@ -119,11 +115,13 @@ function Home() {
     const handleSortbyName = () => {
         const sortedCoins = coins.sort((a, b) => a.id.localeCompare(b.id));
         setCoins([...sortedCoins]);
+        setPage(0);
     }
 
     const handleSortbyRank = () => {
         const sortedCoins = coins.sort((a, b) => (a.rank - b.rank));
         setCoins([...sortedCoins]);
+        setPage(0);
     }
 
     return (
