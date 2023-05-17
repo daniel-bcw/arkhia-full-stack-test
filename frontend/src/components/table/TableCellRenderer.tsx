@@ -3,8 +3,12 @@ import {
     TableCell,
     Typography,
 } from "@mui/material";
+
+import './style.css';
+
 interface DefaultCellRendererProps {
     value: string;
+    mediaType?: string;
 };
 
 /**
@@ -17,18 +21,17 @@ interface DefaultCellRendererProps {
  * </TableBody>
  *              
  * @param children Components to be rendered inside
- * @param children Components to be rendered inside
+ * @param mediaType A string to indicate when it should be hidden when resizing
  * @returns A cell renderer component
  */
 
 interface BasicCellRendererProps {
     children: React.ReactNode;
-    mediaType: string;
-    value?: any;
+    mediaType?: string;
 };
 export const BasicCellRenderer: React.FC<BasicCellRendererProps> = ({ children, mediaType }) => {
     return (
-        <TableCell media-type={mediaType}>
+        <TableCell className="mobile" media-type={mediaType}>
             {children}
         </TableCell>
     );
@@ -47,13 +50,13 @@ export const BasicCellRenderer: React.FC<BasicCellRendererProps> = ({ children, 
  * @param value A string value to be rendered 
  * @returns A string cell React element.
  */
-export const StringCellRenderer: React.FC<DefaultCellRendererProps> = ({ value }) => {
+export const StringCellRenderer: React.FC<DefaultCellRendererProps> = ({ value, mediaType }) => {
     return (
-        <TableCell>
+        <BasicCellRenderer mediaType={mediaType}>
             <Typography color="textSecondary" variant="body2">
                 {value?.toString() || ""}
             </Typography>
-        </TableCell>
+        </BasicCellRenderer>
     );
 };
 
@@ -77,10 +80,11 @@ interface IconCellRendererProps {
         name: string,
         symbol: string,
     };
+    mediaType?: string;
 };
-export const IconCellRenderer: React.FC<IconCellRendererProps> = ({ value }) => {
+export const IconCellRenderer: React.FC<IconCellRendererProps> = ({ value, mediaType }) => {
     return (
-        <TableCell>
+        <BasicCellRenderer mediaType={mediaType}>
             <Box display='flex' gap='10px' alignItems='center'>
                 <img src={value.icon} alt='coin-icon' width='48px' height='48px' />
                 <Box display='flex' flexDirection='column'>
@@ -88,7 +92,7 @@ export const IconCellRenderer: React.FC<IconCellRendererProps> = ({ value }) => 
                     <Typography variant='body2'>{value.symbol}</Typography>
                 </Box>
             </Box>
-        </TableCell>
+        </BasicCellRenderer>
     );
 };
 
@@ -106,10 +110,11 @@ export const IconCellRenderer: React.FC<IconCellRendererProps> = ({ value }) => 
  */
 interface UrlCellRendererProps {
     value: string[];
+    mediaType?: string;
 };
-export const UrlCellRenderer: React.FC<UrlCellRendererProps> = ({ value }) => {
+export const UrlCellRenderer: React.FC<UrlCellRendererProps> = ({ value, mediaType }) => {
     return (
-        <TableCell>
+        <BasicCellRenderer mediaType={mediaType}>
             <Box display='flex' flexDirection='column'>
                 {value.map((url: string, index: number) => (
                     <Typography key={url || "" + index}>
@@ -117,6 +122,6 @@ export const UrlCellRenderer: React.FC<UrlCellRendererProps> = ({ value }) => {
                     </Typography>)
                 )}
             </Box>
-        </TableCell>
+        </BasicCellRenderer>
     );
 };

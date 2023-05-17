@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Table, TableBody, TableContainer, TableHead, TableRow, Paper, TablePagination } from '@mui/material';
+import { Box, Table, TableBody, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { StringCellRenderer } from './TableCellRenderer';
 export interface TableHeaderProps {
     label: string;
@@ -7,8 +7,6 @@ export interface TableHeaderProps {
     mediaType?: "mobile" | "tablet" | "desktop" | "hd";
     renderer?: React.FC<any>;
 };
-
-const itemsPerPageOptions = [5, 10, 25];
 
 /**
  * This component is a Material UI table wrapper supporting renderer pattern and
@@ -40,33 +38,10 @@ interface TableWrapperProps {
     data: any[];
 };
 const TableWrapper: React.FC<TableWrapperProps> = ({ headers, data }) => {
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(itemsPerPageOptions[0]);
-    const [visibleRows, setVisibleRows] = useState<any[]>([]);
-
-    const handleChangePage = (_event: unknown, newPage: number) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
-
-    useEffect(() => {
-        setPage(0);
-    }, [data]);
-
-    useEffect(() => {
-        setVisibleRows(data.slice(
-            page * rowsPerPage,
-            (page + 1) * rowsPerPage
-        ));
-    }, [page, rowsPerPage, data]);
 
     return (
-        <Box>
-            {visibleRows.length === 0
+        <>
+            {data.length === 0
                 ? <Box display='flex' justifyContent='center'>
                     No Item to display
                 </Box>
@@ -78,13 +53,14 @@ const TableWrapper: React.FC<TableWrapperProps> = ({ headers, data }) => {
                                     <StringCellRenderer
                                         key={header.dataKey}
                                         value={header.label}
+                                        mediaType={header.mediaType}
                                     />
                                 )}
                             </TableRow>
                         </TableHead>
 
                         <TableBody>
-                            {visibleRows.map((row, index) => (
+                            {data.map((row, index) => (
                                 <TableRow key={index}>
                                     {headers.map((header) => {
                                         const value = row[header.dataKey];
@@ -104,17 +80,7 @@ const TableWrapper: React.FC<TableWrapperProps> = ({ headers, data }) => {
                     </Table>
                 </TableContainer>
             }
-            <TablePagination
-                rowsPerPageOptions={itemsPerPageOptions}
-                component="div"
-                count={data.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-
-        </Box>
+        </>
     );
 };
 

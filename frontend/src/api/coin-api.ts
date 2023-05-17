@@ -35,24 +35,12 @@ export const getCoins = async (currency: string): Promise<ICoinModel[]> => {
     return json.coins as ICoinModel[];
 };
 
-export const getCoinExchange = async (currency: string, coinId: string): Promise<ICoinModel[]> => {
-    const url = `${BACKEND_API_URL}?currency=${currency}&coinId=${coinId}`;
+export const getExchange = async (currency: string, coinId: string): Promise<string> => {
+    const url = `${BACKEND_API_URL}/exchange?currency=${currency}&coinId=${coinId}`;
     const response = await fetch(url).catch(error => {
         return null;
     });
 
     const json =  await response?.json();
-    return json.coins as ICoinModel[];
-};
-
-export const getCoinsExchange = async (currency: string, sortBy?: string): Promise<ICoinModel[]> => {
-    const url = `${BACKEND_API_URL}/coins?currency=${currency}` + (sortBy ? `&sortBy=${sortBy}` : '');
-    const response = await fetch(url).catch(error => {
-        return null;
-    });
-
-
-    const json =  await response?.json();
-    console.log(json);
-    return json.coins as ICoinModel[];
+    return json;
 };
