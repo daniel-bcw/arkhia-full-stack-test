@@ -1,5 +1,5 @@
 const COINSTATS_API_URL = process.env.REACT_APP_COINSTATS_API_URL || 'https://api.coinstats.app/public/v1/coins';
-const BACKEND_API_URL = process.env.REACT_BACKEND_API_URL || 'http://localhostt:4000';
+const BACKEND_API_URL = process.env.REACT_BACKEND_API_URL || 'http://localhost:4000';
 
 export interface ICoinModel {
     id: string;
@@ -46,11 +46,13 @@ export const getCoinExchange = async (currency: string, coinId: string): Promise
 };
 
 export const getCoinsExchange = async (currency: string, sortBy?: string): Promise<ICoinModel[]> => {
-    const url = `${BACKEND_API_URL}?currency=${currency}` + (sortBy ? `&sortBy=${sortBy}` : '');
+    const url = `${BACKEND_API_URL}/coins?currency=${currency}` + (sortBy ? `&sortBy=${sortBy}` : '');
     const response = await fetch(url).catch(error => {
         return null;
     });
 
+
     const json =  await response?.json();
+    console.log(json);
     return json.coins as ICoinModel[];
 };
