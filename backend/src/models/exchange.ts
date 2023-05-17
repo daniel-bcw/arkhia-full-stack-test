@@ -19,3 +19,11 @@ export interface IExchangeModel {
 
     exchange: string;
 };
+
+export interface IPairModel {
+    price: number;
+    exchange: string;
+    pair: string;
+    pairPrice: number;
+    volume: number;
+};

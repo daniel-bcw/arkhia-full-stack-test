@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import apiRouter from './api/router';
 
-const port = process.env.PORT || 8088;
+const port = process.env.PORT || 4000;
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.get('/', (_, res) => {
 })
 
 // configure api router
-app.use('/api', apiRouter);
+app.use('/', apiRouter);
 
 // open the server
 app.listen(port, () => {
