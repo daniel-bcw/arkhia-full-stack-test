@@ -96,8 +96,10 @@ function Home() {
             setLoading(false);
         }
 
-        setLoading(true);
-        updateExchange();
+        if (!isLoading) {
+            setLoading(true);
+            updateExchange();
+        }
     }, [page, rowsPerPage, coins]);
 
     const handleCurrencyChange = (e: SelectChangeEvent) => {
