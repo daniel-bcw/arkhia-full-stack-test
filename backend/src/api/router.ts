@@ -1,8 +1,19 @@
 import { Router } from 'express';
-import ExchangeController from '@/api/controllers/exchange.controller';
+import ExchangeController, { cache } from '@/api/controllers/exchange.controller';
+
+const cacheMiddleware = (req, res, next) => {
+    const cacheKey = req.originalUrl;
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+        return res.json(cachedData);
+    }
+
+    next();
+};
 
 const router = Router();
-router.get('/coins', ExchangeController.all);
-router.get('/exchange', ExchangeController.exchange);
+router.get('/coins', cacheMiddleware, ExchangeController.all);
+router.get('/exchange', cacheMiddleware, ExchangeController.exchange);
 
 export default router;

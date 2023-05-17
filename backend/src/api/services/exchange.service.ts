@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 import { IExchangeModel, IPairModel } from '@/models/exchange';
 
 const COINSTATS_URL = process.env.COINSTATS_URL || 'https://api.coinstats.app/public/v1';
