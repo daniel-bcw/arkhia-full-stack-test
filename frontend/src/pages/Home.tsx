@@ -15,13 +15,15 @@ import * as CoinApi from 'api/coin-api';
 import { FlexBox, IconCellRenderer, UrlCellRenderer } from 'components';
 import TableWrapper, { TableHeaderProps } from 'components/table/TableWrapper';
 
+let isFetchingCoins = false;
+let isFetchingExchange = false;
 const itemsPerPageOptions = [5, 10];
 const currencies = ["USD", "HKD", "SGD", "KRW"];
 
 const headers: TableHeaderProps[] = [
     { label: 'Rank', dataKey: 'rank' },
     { label: 'Name', dataKey: 'coin', renderer: IconCellRenderer },
-    { label: 'Price', dataKey: 'price', mediaType: 'tablet'},
+    { label: 'Price', dataKey: 'price', mediaType: 'tablet' },
     { label: 'Volume', dataKey: 'volume', mediaType: 'desktop' },
     { label: 'MarketCap', dataKey: 'marketCap', mediaType: 'hd' },
     { label: 'Total Supply', dataKey: 'totalSupply', mediaType: 'hd' },
@@ -36,7 +38,7 @@ function Home() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(itemsPerPageOptions[0]);
     const [visibleRows, setVisibleRows] = useState<any[]>([]);
-    
+
     useEffect(() => {
         setPage(0);
     }, [coins]);
@@ -44,28 +46,34 @@ function Home() {
     const getCoinsQuery = () => {
         setLoading(true);
         CoinApi.getCoins(currency).then((data: CoinApi.ICoinModel[]) => {
-            const transform = (_data: CoinApi.ICoinModel[]) => _data.map((coin: CoinApi.ICoinModel) => {
-                return {
-                    ...coin,
-                    coin: {
-                        name: coin.name,
-                        icon: coin.icon,
-                        symbol: coin.symbol,
-                    },
-                    urls: [
-                        coin.websiteUrl,
-                        coin.twitterUrl,
-                    ]
-                };
-            });
+            const transform = (_data: CoinApi.ICoinModel[]) => {
+                return _data.map((coin: CoinApi.ICoinModel) => {
+                    return {
+                        ...coin,
+                        coin: {
+                            name: coin.name,
+                            icon: coin.icon,
+                            symbol: coin.symbol,
+                        },
+                        urls: [
+                            coin.websiteUrl,
+                            coin.twitterUrl,
+                        ]
+                    };
+                })
+            };
 
+            isFetchingCoins = false;
             setLoading(false);
             setCoins(transform(data));
         });
     }
 
     useEffect(() => {
-        getCoinsQuery();
+        if (!isFetchingCoins) {
+            isFetchingCoins = true;
+            getCoinsQuery();
+        }
         // eslint-disable-next-line
     }, [currency]);
 
@@ -80,11 +88,12 @@ function Home() {
 
     useEffect(() => {
         const updateExchange = async () => {
+            setLoading(true);
             const rows = coins.slice(
                 page * rowsPerPage,
                 (page + 1) * rowsPerPage
             );
-    
+
             // Query Exchange
             for (let i = 0; i < rows.length; i++) {
                 const exchange = await CoinApi.getExchange(currency, rows[i].id);
@@ -94,10 +103,11 @@ function Home() {
             // Set Visible Data on Table
             setVisibleRows(rows);
             setLoading(false);
+            isFetchingExchange = false;
         }
 
-        if (!isLoading) {
-            setLoading(true);
+        if (!isFetchingExchange) {
+            isFetchingExchange = true;
             updateExchange();
         }
     }, [page, rowsPerPage, coins]);

@@ -1,13 +1,26 @@
-version: "3"
-
+version: '3'
 services:
   frontend:
     container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+    command: npm run start
+
   backend:
     container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "4000:4000"
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    command: npm run dev
+
