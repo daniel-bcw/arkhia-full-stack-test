@@ -138,7 +138,7 @@ Backend: `Node.js`, `Express.js`, `Typescript`
 
 ## Snapshots
 
-![Snapshots](https://github.com/daniel-bcw/arkhia-full-stack-test/tree/itcvmaster/test/snapshots.gif)
+![Snapshots](https://github.com/daniel-bcw/arkhia-full-stack-test/blob/itcvmaster/test/snapshots.gif)
 
 ## Setup
 
