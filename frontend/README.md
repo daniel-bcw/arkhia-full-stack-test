@@ -1,6 +1,6 @@
 # Coin Stats Viewer Frontend
 A website to display viewer coins data by fetching from `https://api.coinstats.app/public/v1/coins`.
-And to display the best Exchange provider for reach currency by fetching from backend.
+And to display the best  provider for reach currency by fetching from backend.
 
 ## Table of Content:
 - [Screenshots](#screenshots)
@@ -14,7 +14,7 @@ And to display the best Exchange provider for reach currency by fetching from ba
 
 
 ## Technologies
-`React`, `Redux-Toolkit`, `mui/material`, `Typescript`
+`React`, `React-Dom`, `mui/material`, `Typescript`
 
 ## Install
 - Download or clone the repository
