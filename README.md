@@ -137,9 +137,9 @@ Frontend: `React`, `Redux Toolkit`, `react-router`, `javascript`
 Backend: `Node.js`, `Express.js`, `Typescript`
 
 
-## Snapshots
+## Screenshots
 
-![Snapshots](https://github.com/daniel-bcw/arkhia-full-stack-test/blob/itcvmaster/test/snapshots.gif)
+![Screenshots](https://github.com/daniel-bcw/arkhia-full-stack-test/blob/itcvmaster/test/snapshots.gif)
 
 ## Setup
 
