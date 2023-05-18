@@ -96,7 +96,6 @@ function Home() {
                     const response = await CoinApi.getExchange(currency, rows[i].id);
                     rows[i].exchange = response.exchange || 'N/A';
                 } catch (error: any) {
-                    console.log("[Error]", error.toString());
                     rows[i].exchange = 'N/A';
                 };
             }

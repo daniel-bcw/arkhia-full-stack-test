@@ -57,6 +57,6 @@ export const getExchange = async (currency: string, coinId: string): Promise<{ e
         return json;
     } catch (error: any) {
         console.log("[Error]", error.toString());
-        throw Error(error.toString);
+        throw error;
     }
 };

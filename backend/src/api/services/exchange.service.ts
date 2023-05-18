@@ -11,14 +11,14 @@ class ExchangeService {
      * @returns An array of IExchangeModel
      */
     private async getCoinsFromOrigin(currency: string) {
-        const response = await axios.get(`${COINSTATS_URL}/coins?currency=${currency}`)
-            .catch(error => {
-                // Handle any errors
-                console.log(error);
-                return null;
-            });
-
-        return response.data;
+        try {
+            const response = await axios.get(`${COINSTATS_URL}/coins?currency=${currency}`);
+            return response.data;
+        } catch (error) {
+            // Handle any errors
+            console.log(error);
+            throw (error);
+        }
     }
 
     /**
@@ -65,7 +65,7 @@ class ExchangeService {
 
             if (filteredPairs.length <= 0) {
                 return { error: 'Not Supported Currency' };
-                
+
             } else if (filteredPairs.length === 1) {
                 return { exchange: filteredPairs[0].exchange };
             }
