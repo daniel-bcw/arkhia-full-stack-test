@@ -13,7 +13,6 @@ const cacheMiddleware = (req, res, next) => {
 };
 
 const router = Router();
-router.get('/coins', cacheMiddleware, ExchangeController.all);
 router.get('/exchange', cacheMiddleware, ExchangeController.exchange);
 
 export default router;

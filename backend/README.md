@@ -15,7 +15,13 @@ Example:
 * GET /exchange?currency=USD&coinId=bitcoin
 
 Respose
-"Cryptonex"
+{
+    "exchange": "Cryptonex"
+}
+or 
+{
+    "error": "Not Supported Currency"
+}
 ```
 
 ## Technologies

@@ -92,8 +92,13 @@ function Home() {
 
             // Query Exchange
             for (let i = 0; i < rows.length; i++) {
-                const exchange = await CoinApi.getExchange(currency, rows[i].id);
-                rows[i].exchange = exchange;
+                try {
+                    const response = await CoinApi.getExchange(currency, rows[i].id);
+                    rows[i].exchange = response.exchange || 'N/A';
+                } catch (error: any) {
+                    console.log("[Error]", error.toString());
+                    rows[i].exchange = 'N/A';
+                };
             }
 
             // Set Visible Data on Table
@@ -110,6 +115,7 @@ function Home() {
 
     const handleCurrencyChange = (e: SelectChangeEvent) => {
         setCurrency(e.target.value);
+        setPage(0);
     }
 
     const handleSortbyName = () => {

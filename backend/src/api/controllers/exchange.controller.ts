@@ -7,38 +7,27 @@ export const cache = new NodeCache();
 
 class ExchangeController {
 
-  /**
-    * GET /exchange?currency={currency}
-    * 
-    * @param {*} req A request 
-    * @param {*} res A response
-    * @returns paginate image list
+    /**
+      * GET /exchange?currency={currency}&coinId={coinId}
+      * 
+      * @param {*} req A request 
+      * @param {*} res A response to send
+      * @returns { exchange: 'Kraken' }
     */
-  async all(req: Request, res: Response) {
-    const { currency } = req.query;
-    const coins = await exchangeService.getAllExchange(String(currency));
+    exchange(req: Request, res: Response) {
+        const { currency, coinId } = req.query;
 
-    cache.set(req.originalUrl, coins, 3600);
+        exchangeService.getExchange(String(currency), String(coinId))
+            .then(exchange => {
+                cache.set(req.originalUrl, exchange, 3600);
 
-    res.status(200).json(coins);
-  }
+                res.status(200).json(exchange);
+            })
+            .catch(error => {
+                res.status(500).json({ error: error.message });
+            })
 
-  /**
-    * GET /exchange?currency={currency}&coinId={coinId}
-    * 
-    * @param {*} req A request 
-    * @param {*} res A response to send
-    * @returns { exchange: 'Kraken' }
-  */
-  async exchange(req: Request, res: Response) {
-    const { currency, coinId } = req.query;
-
-    const exchange = await exchangeService.getExchange(String(currency), String(coinId));
-
-    cache.set(req.originalUrl, exchange, 3600);
-
-    res.status(200).json(exchange);
-  }
+    }
 }
 
 export default new ExchangeController;

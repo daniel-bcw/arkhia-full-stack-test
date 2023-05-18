@@ -25,22 +25,38 @@ export interface ICoinModel {
     exchange: string;
 };
 
+/**
+ * Fetch coin stats
+ * 
+ * @param {*} currency A currency in cash. Can be 'USD', 'HKD', 'KRW', and 'SGD'
+ * @returns An array of ICoinModel
+ */
 export const getCoins = async (currency: string): Promise<ICoinModel[]> => {
     const url = `${COINSTATS_API_URL}?currency=${currency}`;
     const response = await fetch(url).catch(error => {
         return null;
     });
 
-    const json =  await response?.json();
+    const json = await response?.json();
     return json.coins as ICoinModel[];
 };
 
-export const getExchange = async (currency: string, coinId: string): Promise<string> => {
+/**
+ * Get the best exchange provider from backend
+ * 
+ * @param {*} currency A currency in cash. Can be 'USD', 'HKD', 'KRW', and 'SGD'
+ * @param {*} coinId A cryptocurrency id being returned by coinstats api. ex:) bitcoin, ethereum
+ * @returns {exchange: "Provider"}
+ */
+export const getExchange = async (currency: string, coinId: string): Promise<{ exchange: string }> => {
     const url = `${BACKEND_API_URL}/exchange?currency=${currency}&coinId=${coinId}`;
-    const response = await fetch(url).catch(error => {
-        return null;
-    });
+    try {
+        const response = await fetch(url);
+        const json = await response?.json();
 
-    const json =  await response?.json();
-    return json;
+        return json;
+    } catch (error: any) {
+        console.log("[Error]", error.toString());
+        throw Error(error.toString);
+    }
 };
