@@ -15,8 +15,6 @@ import * as CoinApi from 'api/coin-api';
 import { FlexBox, IconCellRenderer, UrlCellRenderer } from 'components';
 import TableWrapper, { TableHeaderProps } from 'components/table/TableWrapper';
 
-let isFetchingCoins = false;
-let isFetchingExchange = false;
 const itemsPerPageOptions = [5, 10];
 const currencies = ["USD", "HKD", "SGD", "KRW"];
 
@@ -59,17 +57,13 @@ function Home() {
                 })
             };
 
-            isFetchingCoins = false;
             setLoading(false);
             setCoins(transform(data));
         });
     }
 
     useEffect(() => {
-        if (!isFetchingCoins) {
-            isFetchingCoins = true;
-            getCoinsQuery();
-        }
+        getCoinsQuery();
         // eslint-disable-next-line
     }, [currency]);
 
@@ -84,32 +78,29 @@ function Home() {
 
     useEffect(() => {
         const updateExchange = async () => {
-            setLoading(true);
             const rows = coins.slice(
                 page * rowsPerPage,
                 (page + 1) * rowsPerPage
             );
+            setVisibleRows(rows);
 
             // Query Exchange
             for (let i = 0; i < rows.length; i++) {
+                if (rows[i].exchange) {
+                    continue;
+                }
+                
                 try {
                     const response = await CoinApi.getExchange(currency, rows[i].id);
                     rows[i].exchange = response.exchange || 'N/A';
                 } catch (error: any) {
                     rows[i].exchange = 'N/A';
                 };
+                setVisibleRows([...rows]);
             }
-
-            // Set Visible Data on Table
-            setVisibleRows(rows);
-            setLoading(false);
-            isFetchingExchange = false;
         }
 
-        if (!isFetchingExchange) {
-            isFetchingExchange = true;
-            updateExchange();
-        }
+        updateExchange();
     }, [page, rowsPerPage, coins]);
 
     const handleCurrencyChange = (e: SelectChangeEvent) => {
