@@ -77,19 +77,21 @@ function Home() {
     };
 
     useEffect(() => {
+        // Display rows without exchange.
+        const rows = coins.slice(
+            page * rowsPerPage,
+            (page + 1) * rowsPerPage
+        );
+        setVisibleRows(rows);
+
         const updateExchange = async () => {
-            const rows = coins.slice(
-                page * rowsPerPage,
-                (page + 1) * rowsPerPage
-            );
-            setVisibleRows(rows);
 
             // Query Exchange
             for (let i = 0; i < rows.length; i++) {
                 if (rows[i].exchange) {
                     continue;
                 }
-                
+
                 try {
                     const response = await CoinApi.getExchange(currency, rows[i].id);
                     rows[i].exchange = response.exchange || 'N/A';
