@@ -30,6 +30,7 @@ const headers: TableHeaderProps[] = [
 ];
 
 function Home() {
+    const [, triggerRender] = useState(false);
     const [isLoading, setLoading] = useState(false);
     const [currency, setCurrency] = useState('USD');
     const [coins, setCoins] = useState<CoinApi.ICoinModel[]>([]);
@@ -84,26 +85,34 @@ function Home() {
         );
         setVisibleRows(rows);
 
+    }, [page, rowsPerPage, coins]);
+
+    useEffect(() => {
+
         const updateExchange = async () => {
 
             // Query Exchange
-            for (let i = 0; i < rows.length; i++) {
-                if (rows[i].exchange) {
+            for (let i = 0; i < visibleRows.length; i++) {
+                if (visibleRows[i].exchange) {
                     continue;
                 }
 
                 try {
-                    const response = await CoinApi.getExchange(currency, rows[i].id);
-                    rows[i].exchange = response.exchange || 'N/A';
+                    const response = await CoinApi.getExchange(currency, visibleRows[i].id);
+                    visibleRows[i].exchange = response.exchange || 'N/A';
                 } catch (error: any) {
-                    rows[i].exchange = 'N/A';
+                    visibleRows[i].exchange = 'N/A';
                 };
-                setVisibleRows([...rows]);
+                
+                setVisibleRows(visibleRows);
+                triggerRender((prevState) => !prevState);
             }
         }
 
         updateExchange();
-    }, [page, rowsPerPage, coins]);
+
+    // eslint-disable-next-line
+    }, [visibleRows]);
 
     const handleCurrencyChange = (e: SelectChangeEvent) => {
         setCurrency(e.target.value);
