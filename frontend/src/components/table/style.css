@@ -1,0 +1,59 @@
+@media (max-width: 639px) {
+	[media-type="mobile"] {
+		display: table-cell !important;
+	}
+	[media-type="tablet"] {
+		display: none !important;
+	}
+	[media-type="desktop"] {
+		display: none !important;
+	}
+	[media-type="hd"] {
+		display: none !important;
+	}
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+	[media-type="mobile"] {
+		display: table-cell !important;
+	}
+	[media-type="tablet"] {
+		display: table-cell !important;
+	}
+	[media-type="desktop"] {
+		display: none !important;
+	}
+	[media-type="hd"] {
+		display: none !important;
+	}
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+	[media-type="mobile"] {
+		display: table-cell !important;
+	}
+	[media-type="tablet"] {
+		display: table-cell !important;
+	}
+	[media-type="desktop"] {
+		display: table-cell !important;
+	}
+	[media-type="hd"] {
+		display: none !important;
+	}
+}
+
+@media (min-width: 1440px) {
+	[media-type="mobile"] {
+		display: table-cell !important;
+	}
+	[media-type="tablet"] {
+		display: table-cell !important;
+	}
+	[media-type="desktop"] {
+		display: table-cell !important;
+	}
+	[media-type="hd"] {
+		display: table-cell !important;
+	}
+}

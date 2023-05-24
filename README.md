@@ -9,6 +9,15 @@
 
 # Take Home Test (Fullstack)
 
+## Table of Content:
+
+- [Overview](#overview)
+- [Frontend Requirements](#frontend)
+- [Backend Requirements](#backend)
+- [Screenshots](#screenshots)
+- [Technologies](#technologies)
+- [Setup](#setup)
+- [Future Works](#future-works)
 ## Overview
 
 This is a take-home test for candidates applying for a full-stack developer
@@ -102,7 +111,7 @@ NOTE: Please make the server listen on port `:4000`.
 
 - Request:
 
-    - `curl http://localhost:4000/exchange-route?coinId=BTC&currency=USD`
+    - `curl http://localhost:4000/exchange-route?coinId=bitcoin&currency=USD`
 
 - Response:
 
@@ -110,21 +119,6 @@ NOTE: Please make the server listen on port `:4000`.
 {
     "exchange": "Kraken",
 }
-```
-
-**or...**
-
-- Request:
-
-    - `curl http://localhost:4000/exchange-route?&currency=USD`
-
-- Response:
-
-```json
-[
-    { "coinId": "BTC", "exchange": "Kraken" },
-    { "coinId": "ETH", "exchange": "Gemini" },
-]
 ```
 
 ## Docker (optional)
@@ -136,12 +130,25 @@ The respective folder is mounted in `/app` directory inside the container.
 
 It isn't a requirement to use Docker, but may be convenient.
 
-## Submitting Your Code
+## Technologies
 
-Once you've completed the test, please send a pull request to the same repository.
+Frontend: `React`, `React-Dom`, `mui/material`, `Typescript`
 
-**Do not include node_modules or .git in your submission.**
+Backend: `Node.js`, `Express.js`, `Typescript`
 
-We will then review it and get back to you as soon as possible.
 
-Thanks!
+## Screenshots
+
+![Screenshots](https://github.com/daniel-bcw/arkhia-full-stack-test/blob/itcvmaster/test/snapshots.gif)
+
+## Setup
+
+- Download or clone the repository
+- Follow this [document](./frontend/README.md) to run backend locally. 
+- Follow this [document](./backend/README.md) to run frontend locally.
+
+## Future Works
+
+- Implement pagination and sort in backend.
+- Move assets to CDN and optimize them to reduce the loading time. (`*.webp` and `*.svg` are preferred )
+- Extend Redux based state management for complex data flow
